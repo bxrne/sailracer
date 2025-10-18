@@ -13,3 +13,10 @@ Remake of Scratch 2012 [game](https://scratch.mit.edu/projects/2657604/)
     cd src/ 
     love .
 ```
+
+## Development
+
+- Lint: `lx lint`
+- Format: `lx fmt`
+- Test: `busted`
+- Run: `lux run` or `love src/`

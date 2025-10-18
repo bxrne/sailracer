@@ -1,0 +1,35 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Lua
+      uses: leafo/gh-actions-lua@v10
+      with:
+        luaVersion: "5.4"
+
+    - name: Set up Luarocks
+      uses: leafo/gh-actions-luarocks@v4
+
+    - name: Install dependencies
+      run: |
+        luarocks install luacheck
+        luarocks install busted
+
+    - name: Lint
+      run: luacheck src/ tests/
+
+    - name: Test
+      run: busted tests/
+
+    - name: Run game (basic check)
+      run: |
+        # Install LÖVE if needed, but for CI, just check if main.lua loads
+        lua -l src.main  # This will error if syntax issues, but LÖVE globals may not be available
+        # Alternatively, skip since LÖVE is GUI
