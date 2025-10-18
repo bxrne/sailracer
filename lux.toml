@@ -1,0 +1,19 @@
+package = "sailracer"
+version = "0.1.0"
+lua = ">=5.4"
+
+[description]
+summary = "Sail racing game, remake of scratch version"
+maintainer = "bxrne"
+labels = [ "sailing", "love2d" ]
+license = "MIT"
+
+[dependencies]
+# Add your dependencies here
+# `busted = ">=2.0"`
+
+[run]
+args = [ "src/main.lua" ]
+
+[build]
+type = "builtin"
