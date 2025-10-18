@@ -1,16 +1,16 @@
 local config = require("config")
 
 local boat = {
-  x = config.SCREEN.w / 2,
-  y = config.SCREEN.h - 150,
- 	angle = 0,
-  speed = 60,
-  maxSpeed = config.BOAT.maxSpeed,
-  size = config.BOAT.size,
-  turnSpeed = config.BOAT.turnSpeed,
-  sailAngle = 0,
-  centreboardDeployed = true,
- 	centreboardFactor = 50,
+	x = config.SCREEN.w / 2,
+	y = config.SCREEN.h - 150,
+	angle = 0,
+	speed = 60,
+	maxSpeed = config.BOAT.maxSpeed,
+	size = config.BOAT.size,
+	turnSpeed = config.BOAT.turnSpeed,
+	sailAngle = 0,
+	centreboardDeployed = true,
+	centreboardFactor = 50,
 }
 
 function boat.update(dt, wind)
@@ -22,15 +22,15 @@ function boat.update(dt, wind)
 		boat.angle = boat.angle + boat.turnSpeed * dt
 	end
 
- 	if love.keyboard.isDown("up") then
- 		boat.sailAngle = math.max(boat.sailAngle - boat.turnSpeed * dt, -math.pi / 2)
- 	end
- 	if love.keyboard.isDown("down") then
- 		boat.sailAngle = math.min(boat.sailAngle + boat.turnSpeed * dt, math.pi / 2)
- 	end
+	if love.keyboard.isDown("up") then
+		boat.sailAngle = math.max(boat.sailAngle - boat.turnSpeed * dt, -math.pi / 2)
+	end
+	if love.keyboard.isDown("down") then
+		boat.sailAngle = math.min(boat.sailAngle + boat.turnSpeed * dt, math.pi / 2)
+	end
 
- 	-- Calculate speed based on wind angle (adjusted for sail trim)
- 	local angleToWind = boat.normalizeAngle(wind.angle - boat.angle + boat.sailAngle)
+	-- Calculate speed based on wind angle (adjusted for sail trim)
+	local angleToWind = boat.normalizeAngle(wind.angle - boat.angle + boat.sailAngle)
 	local speedFactor = boat.getSpeedFactor(angleToWind)
 	local targetSpeed = boat.maxSpeed * speedFactor
 
@@ -38,15 +38,15 @@ function boat.update(dt, wind)
 	local accel = boat.speed < targetSpeed and 80 or -60
 	boat.speed = math.max(0, math.min(boat.speed + accel * dt, targetSpeed))
 
-  -- Calculate leeway for lateral resistance
-  local relativeWind = boat.normalizeAngle(wind.angle - boat.angle)
-  local lateralForce = math.sin(relativeWind) * wind.speed
-  local leeway = lateralForce / (boat.speed + 1) / (boat.centreboardDeployed and boat.centreboardFactor or 1)
- 	local moveAngle = boat.angle - leeway
+	-- Calculate leeway for lateral resistance
+	local relativeWind = boat.normalizeAngle(wind.angle - boat.angle)
+	local lateralForce = math.sin(relativeWind) * wind.speed
+	local leeway = lateralForce / (boat.speed + 1) / (boat.centreboardDeployed and boat.centreboardFactor or 1)
+	local moveAngle = boat.angle - leeway
 
-  -- Move boat with leeway
-  boat.x = boat.x + math.cos(moveAngle) * boat.speed * dt
-  boat.y = boat.y + math.sin(moveAngle) * boat.speed * dt
+	-- Move boat with leeway
+	boat.x = boat.x + math.cos(moveAngle) * boat.speed * dt
+	boat.y = boat.y + math.sin(moveAngle) * boat.speed * dt
 
 	-- Screen boundaries
 	boat.x = math.max(20, math.min(config.SCREEN.w - 20, boat.x))

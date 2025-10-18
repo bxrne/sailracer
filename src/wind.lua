@@ -1,8 +1,8 @@
 local config = require("config")
 
 local wind = {
- 	angle = 3 * math.pi / 2,
- 	speed = config.WIND.speed,
+	angle = 3 * math.pi / 2,
+	speed = config.WIND.speed,
 }
 
 function wind.drawIndicator()

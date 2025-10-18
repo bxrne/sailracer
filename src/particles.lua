@@ -18,7 +18,7 @@ function particles.create()
 	particles.wind:setColors(1, 1, 1, 0.3, 1, 1, 1, 0)
 	particles.wind:setSpeed(30, 60)
 	particles.wind:setSpread(0.2)
- 	particles.wind:setDirection(3 * math.pi / 2) -- Downward
+	particles.wind:setDirection(3 * math.pi / 2) -- Downward
 
 	-- Water particles
 	particles.water = love.graphics.newParticleSystem(img, 150)
